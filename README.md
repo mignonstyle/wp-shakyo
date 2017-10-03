@@ -1,1 +1,1 @@
-# wp-shakyo
+# WP-Shakyo
