@@ -42,4 +42,34 @@ function wp_unregister_GLOBALS() {
         }
 }
 
+/**
+ * Fix '$_SERVER' variables for various setups.
+ *
+ * @since 3.0.0
+ * @access private
+ *
+ * @global string $PHP_SELF The filename of the currently executing script,
+ *      relative to the document root.
+ */
+function wp_fix_server_vars() {
+    global $PHP_SELF;
+
+    $defaults_server_values = array(
+        'SERVER_SOFTWARE' => '',
+        'REQUEST_URI' => '',
+    );
+
+    $_SERVER = array_merge( $defaults_server_values, $_SERVER );
+
+    // Fix for IIS when renning with PHP ISAPI
+    if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'sgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
+
+        // IIS Mod-Rewrite
+    }
+}
+
+
+
+
+
 echo('hogehoge');
