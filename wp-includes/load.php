@@ -65,6 +65,10 @@ function wp_fix_server_vars() {
     if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'sgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
 
         // IIS Mod-Rewrite
+        if ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
+            $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
+        }
+        // IIS Isapi_Rewrite
     }
 }
 
