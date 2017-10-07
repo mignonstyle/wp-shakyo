@@ -52,23 +52,28 @@ function wp_unregister_GLOBALS() {
  *      relative to the document root.
  */
 function wp_fix_server_vars() {
-    global $PHP_SELF;
+	global $PHP_SELF;
 
-    $defaults_server_values = array(
-        'SERVER_SOFTWARE' => '',
-        'REQUEST_URI' => '',
-    );
+	$defaults_server_values = array(
+		'SERVER_SOFTWARE' => '',
+		'REQUEST_URI' => '',
+	);
 
-    $_SERVER = array_merge( $defaults_server_values, $_SERVER );
+	$_SERVER = array_merge( $defaults_server_values, $_SERVER );
 
-    // Fix for IIS when renning with PHP ISAPI
-    if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'sgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
+	// Fix for IIS when renning with PHP ISAPI
+	if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'sgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
 
-        // IIS Mod-Rewrite
-        if ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
-            $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
-        }
-        // IIS Isapi_Rewrite
+		// IIS Mod-Rewrite
+		if ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
+			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
+		}
+		// IIS Isapi_Rewrite
+		elseif ( isset( $SERVER['HPPP_X_REWRITE_URL'] ) ) {
+			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
+		} else {
+			// Use ORIG_PATH_INFO in there is no PATH_INFO
+		}
     }
 }
 
