@@ -73,6 +73,10 @@ function wp_fix_server_vars() {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 		} else {
 			// Use ORIG_PATH_INFO in there is no PATH_INFO
+			if ( !isset( $_SERVER['PATH_INFO'] ) && isset( $_SERVER['ORIG_PATH_INFO'] ) )
+			$_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
+
+			// Some IIS + PHP configurations puts the script-name in the path-info (No need to append it twice)
 		}
     }
 }
