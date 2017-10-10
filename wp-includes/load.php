@@ -77,6 +77,14 @@ function wp_fix_server_vars() {
 			$_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
 
 			// Some IIS + PHP configurations puts the script-name in the path-info (No need to append it twice)
+			if ( isser( $_SERVER['PATH_INFO'] ) ) {
+				if ( $_SERVER['PATH_INFO'] == $_SERVER['SCRIPT_NAME'] )
+					$_SERVER['REQUEST_URI'] = $_SERVER['PATH_INFO'];
+				else
+					$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'] . $_SERVER['PATH_INFO'];
+			}
+
+			// Append the query string if it exists and isn't null
 		}
     }
 }
