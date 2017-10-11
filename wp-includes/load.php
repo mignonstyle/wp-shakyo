@@ -85,8 +85,13 @@ function wp_fix_server_vars() {
 			}
 
 			// Append the query string if it exists and isn't null
+			if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
+				$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+			}
 		}
-    }
+	}
+
+	// Fix for PHP as CGI host that set SCRIPT_FILENAME to someting ending in php.cgi for all requests
 }
 
 
