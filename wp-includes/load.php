@@ -92,9 +92,30 @@ function wp_fix_server_vars() {
 	}
 
 	// Fix for PHP as CGI host that set SCRIPT_FILENAME to someting ending in php.cgi for all requests
+	if ( isser( $_SERVER['SCRIPT_FILENAME'] ) && ( strpos( $_SERVER['SCRIPT_FILENAME'] ), 'php.cgi') == strlen( $_SERVER['SCRIPT_FILENAME'] ) -7 ) )
+		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
+
+	// Fix for Dreamhost and other PHP as CGI hosts
+	if ( strpos( $_SERVER['SCRIPT_NAME'], 'php.cgi' ) != false )
+		unset( $_SERVER['PATH_INFO'] );
+
+	// Fix empty PHP_SELF
+	$PHP_SELF = $_SERVER['PHP_SELF'];
+	if ( empty( $PHP_SELF) )
+		$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace( '/(\?.*)?$/', '', $_SERVER['REQUEST_URI'] );
 }
 
-
+/**
+ * Check for the required PHP version, and the MySQL extension or
+ * a database drop-in.
+ *
+ * Dies if requirements are not met.
+ * @since 3.0.0
+ * @access private
+ *
+ * @global string $required_php_version The required PHP version string.
+ * @global string $wp_verion            The WordPress version string.
+ */
 
 
 
