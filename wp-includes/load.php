@@ -51,6 +51,8 @@ function wp_unregister_GLOBALS() {
  * @global string $PHP_SELF The filename of the currently executing script,
  *      relative to the document root.
  */
+
+
 function wp_fix_server_vars() {
 	global $PHP_SELF;
 
@@ -92,7 +94,7 @@ function wp_fix_server_vars() {
 	}
 
 	// Fix for PHP as CGI host that set SCRIPT_FILENAME to someting ending in php.cgi for all requests
-	if ( isser( $_SERVER['SCRIPT_FILENAME'] ) && ( strpos( $_SERVER['SCRIPT_FILENAME'] ), 'php.cgi') == strlen( $_SERVER['SCRIPT_FILENAME'] ) -7 ) )
+	if ( isser( $_SERVER['SCRIPT_FILENAME'] ) && ( strpos( $_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen( $_SERVER['SCRIPT_FILENAME'] ) -7 ) )
 		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 
 	// Fix for Dreamhost and other PHP as CGI hosts
@@ -116,7 +118,6 @@ function wp_fix_server_vars() {
  * @global string $required_php_version The required PHP version string.
  * @global string $wp_verion            The WordPress version string.
  */
-
 
 
 echo('hogehoge');
