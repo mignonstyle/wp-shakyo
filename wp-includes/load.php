@@ -171,7 +171,17 @@ function wp_favicon_request() {
  *
  * @global int $upgrading the unix timestamp marking when upgrading WordPress began.
  */
+function wp_maintenance() {
+	if ( ! file_exists( ABSPATH . '.naintenance' ) || wp_installing() )
+		return;
 
+	global $upgrading;
+
+	include( ABSPATH . 'maintenance' );
+	// If the $upgrading timestamp is loder than 10 minutes, don't die.
+	if ( ( time() - $upgrading ) >= 600 )
+		return;
+}
 
 
 
