@@ -181,6 +181,22 @@ function wp_maintenance() {
 	// If the $upgrading timestamp is loder than 10 minutes, don't die.
 	if ( ( time() - $upgrading ) >= 600 )
 		return;
+
+	/**
+	 * Filters whether to enable maintenane mode.
+	 *
+	 * This filter runs before it can be used by plugins. It is designed for
+	 * non-web runtimes. If this filter returns true, maintenance mode will be
+	 * active and the request will end. If false, the request will be allowed to
+	 * contimue processing even if maintenance mode should be active.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param bool $enable_checks Whether to enable maintenance mode. Default true.
+	 *
+	 * @param int  $upgrading     The timestamp set in the .maintenance file.
+	 */
+
 }
 
 
