@@ -196,6 +196,9 @@ function wp_maintenance() {
 	 *
 	 * @param int  $upgrading     The timestamp set in the .maintenance file.
 	 */
+	 if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
+		 return;
+	 }
 
 }
 
