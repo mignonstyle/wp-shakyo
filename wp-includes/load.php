@@ -196,9 +196,23 @@ function wp_maintenance() {
 	 *
 	 * @param int  $upgrading     The timestamp set in the .maintenance file.
 	 */
-	 if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
-		 return;
-	 }
+	if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
+		return;
+	}
+
+	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
+		require_once( WP_CONTENT_DIR . '/maintenance.php' );
+		die();
+	}
+
+	wp_load_translations_early();
+
+	$protocol = wp_get_server_protocol();
+	header( "$protocol 503 Service Unavailable", true, 503 );
+	header( 'Content-Type: text/html; charset=utf-8' );
+	header( 'Retry-After: 600' );
+?>
+
 
 }
 
