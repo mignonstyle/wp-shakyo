@@ -244,6 +244,11 @@ function timer_start() {
 	return true;
 }
 
+/**
+ * Retrieve or display the time from the page start to when function is called.
+ *
+ */
+
 
 
 echo('hogehoge');
