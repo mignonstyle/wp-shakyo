@@ -196,10 +196,76 @@ function wp_maintenance() {
 	 *
 	 * @param int  $upgrading     The timestamp set in the .maintenance file.
 	 */
-	 if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
-		 return;
-	 }
+	if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
+		return;
+	}
 
+	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
+		require_once( WP_CONTENT_DIR . '/maintenance.php' );
+		die();
+	}
+
+	wp_load_translations_early();
+
+	$protocol = wp_get_server_protocol();
+	header( "$protocol 503 Service Unavailable", true, 503 );
+	header( 'Content-Type: text/html; charset=utf-8' );
+	header( 'Retry-After: 600' );
+?>
+	<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml"<?php if ( is_rtl() ) echo 'dir="rtl"'; ?>>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title><?php _e( 'Maintenance' ); ?></title>
+
+	</head>
+	<body>
+		<h1><?php _e( 'Briefly unavailable for scheduled maintenance. Check back in a minute.' ); ?></h1>
+	</body>
+	</html>
+<?php
+	die();
+}
+
+/**
+ * Start the WordPress micro-timer.
+ *
+ * @since 0.71
+ * @access private
+ *
+ * @global float $timestart Unix timestamp set at the beginning of the page load.
+ * @see timer_stop()
+ *
+ * @return bool Always returns true.
+ */
+function timer_start() {
+	global $timestart;
+	$timestart = microtime( true );
+	return true;
+}
+
+/**
+ * Retrieve or display the time from the page start to when function is called.
+ *
+ * @since 0.71
+ *
+ * @global float   $timestart Seconds from when timer_start() is called.
+ * @global float   $timeend   Seconds from when function is called.
+ *
+ * @param int|bool $display   Whether to echo or return the results. Accepts 0|false for return,
+ *                            1|true for echo. Default 0|false.
+ * @param int      $precision The number of digits from the right of the decimal too display.
+ *                 Default 3.
+ * @return string The "second.microsecond" finished time calculation. The number is formatted for human consumption, both localized and rounded.
+ */
+function timer_stop( $display = 0, $precision = 3 ) {
+	global $timestart, $timeend;
+	$timeend = microtime( true );
+	$timetotal = $timeend - $timestart;
+	$r = ( function_exists( 'number_format_i18n' ) ) ? number_format_i18n( $timetotal, $precision ) : number_format( $timetotal, $precision );
+	if ( $display )
+		echo $r;
+	return $r;
 }
 
 
