@@ -259,7 +259,13 @@ function timer_start() {
  * @return string The "second.microsecond" finished time calculation. The number is formatted for human consumption, both localized and rounded.
  */
 function timer_stop( $display = 0, $precision = 3 ) {
-
+	global $timestart, $timeend;
+	$timeend = microtime( true );
+	$timetotal = $timeend - $timestart;
+	$r = ( function_exists( 'number_format_i18n' ) ) ? number_format_i18n( $timetotal, $precision ) : number_format( $timetotal, $precision );
+	if ( $display )
+		echo $r;
+	return $r;
 }
 
 
