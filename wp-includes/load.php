@@ -268,6 +268,11 @@ function timer_stop( $display = 0, $precision = 3 ) {
 	return $r;
 }
 
+/**
+ * Set PHP error reporting based on WordPress debug settings.
+ *
+ * Uses three constants: 'WP_DEBUG', 'WP_DEBUG_DESPLAY', and 'WP_DEBUG_LOG'.
+ */
 
 
 echo('hogehoge');
