@@ -296,10 +296,12 @@ function timer_stop( $display = 0, $precision = 3 ) {
  *
  * Error are never displaye for XML-RPC, REST, and Ajax requests.
  *
- *
- *
- *
+ * @since 3.0.0
+ * @access private
  */
+function wp_debug_mode() {
+	
+}
 
 
 echo('hogehoge');
