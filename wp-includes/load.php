@@ -280,6 +280,25 @@ function timer_stop( $display = 0, $precision = 3 ) {
  * argument, or file is used. Deprecated code may be removed from a later
  * varsion.
  *
+ * It is strongly recommended that plugin and theme developers use 'WP_DEBUG'
+ * in their development environments.
+ *
+ * 'WP_DEBUG_DESPLAY' and 'WP_DEBUG_LOG' perform no function unless 'WP_DEBUG'
+ * is true.
+ *
+ * When 'WP_DEBUG_DISPLAY' is true, WordPress will force errors to be displayd.
+ * 'WP_DEBUG_DISPLAY' defaults to true. Defining it as null prevents WordPress
+ * from changing the global configuration setting. Defining 'WP_DEBUG_DISPLAY'
+ * as false will force errors to be hidden.
+ *
+ * When 'WP_DEBUG_LOG' is true, errors will be logged to debug.log in the content
+ * derectory.
+ *
+ * Error are never displaye for XML-RPC, REST, and Ajax requests.
+ *
+ *
+ *
+ *
  */
 
 
