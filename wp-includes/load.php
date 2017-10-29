@@ -300,7 +300,18 @@ function timer_stop( $display = 0, $precision = 3 ) {
  * @access private
  */
 function wp_debug_mode() {
-	
+	/**
+	 * Filters whether to allow the debug mode check to occer.
+	 *
+	 * This filter runs before it can be used by plugins. It is designed for
+	 * non-web run-times. Returning false causes the 'WP_DEBUG' and related
+	 * constants to not be checked and the default php balues for errors
+	 * will be used unless you take care to update them yourself.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param bool $enable_debug_mode Whether to enable debug mode checks to occur. Default true.
+	 */
 }
 
 
